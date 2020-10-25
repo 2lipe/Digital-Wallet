@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import MainHeader from '../MainHeader';
 import Aside from '../Aside';
@@ -6,12 +6,16 @@ import Content from '../Content';
 
 import * as S from './styled';
 
-const Layout = () => {
+type LayoutProps = {
+  children: ReactNode;
+};
+
+const Layout = ({ children }: LayoutProps) => {
   return (
     <S.Grid>
       <MainHeader />
       <Aside />
-      <Content />
+      <Content>{children}</Content>
     </S.Grid>
   );
 };

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import * as S from './styled';
 
-const Content = () => {
-  return (
-    <S.Container>
-      <h1>Content</h1>
-    </S.Container>
-  );
+type ContentProps = {
+  children: ReactNode;
+};
+
+const Content = ({ children }: ContentProps) => {
+  return <S.Container>{children}</S.Container>;
 };
 
 export default Content;

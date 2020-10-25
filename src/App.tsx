@@ -6,12 +6,16 @@ import dark from './styles/themes/dark';
 import GlobalStyles from './styles/GlobalStyles';
 
 import Layout from './components/Layout';
+import Dashboard from './pages/Dashboard';
+import List from './pages/List';
 
 function App() {
   return (
     <ThemeProvider theme={dark}>
       <GlobalStyles />
-      <Layout />
+      <Layout>
+        <List />
+      </Layout>
     </ThemeProvider>
   );
 }
