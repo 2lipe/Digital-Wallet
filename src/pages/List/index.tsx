@@ -2,7 +2,8 @@ import React from 'react';
 
 import ContentHeader from '../../components/ContentHeader';
 import SelectInput from '../../components/SelectInput';
-import { fruits, options } from './options';
+import FinanceCard from '../../components/FinanceCard';
+import { fruits, options, properties } from './options';
 
 import * as S from './styled';
 
@@ -13,6 +14,20 @@ const List = () => {
         <SelectInput options={options} />
         <SelectInput options={fruits} />
       </ContentHeader>
+
+      <S.Content>
+        <FinanceCard {...properties} />
+        <FinanceCard {...properties} />
+        <FinanceCard {...properties} />
+        <FinanceCard {...properties} />
+        <FinanceCard {...properties} />
+        <FinanceCard {...properties} />
+        <FinanceCard {...properties} />
+        <FinanceCard {...properties} />
+        <FinanceCard {...properties} />
+        <FinanceCard {...properties} />
+        <FinanceCard {...properties} />
+      </S.Content>
     </S.Container>
   );
 };
