@@ -31,6 +31,7 @@ export const Container = styled.li`
   }
 
   > div span {
+    font-size: 18px;
     font-weight: bolder;
   }
 
