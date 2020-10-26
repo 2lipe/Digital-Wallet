@@ -8,6 +8,9 @@ import { years, months } from './options';
 import gains from '../../repositories/gains';
 import expense from '../../repositories/expenses';
 
+import formatCurrency from '../../utils/formatCurrency';
+import formatDate from '../../utils/formatDate';
+
 import * as S from './styled';
 
 type RouteParamsListProps = {
@@ -49,9 +52,9 @@ const List = ({ match }: RouteParamsListProps) => {
       return {
         id: String(Math.random() * data.length),
         description: item.description,
-        FormattedAmount: item.amount,
+        FormattedAmount: formatCurrency(Number(item.amount)),
         frequency: item.frequency,
-        FormattedDate: item.date,
+        FormattedDate: formatDate(item.date),
         tagColor: item.frequency === 'recorrente' ? '#4E41F0' : '#E44C4E',
       };
     });
