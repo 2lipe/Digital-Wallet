@@ -5,7 +5,6 @@ import * as S from './styled';
 type FinanceCardProps = {
   title: string;
   subtitle: string;
-  cardColor: string;
   tagColor: string;
   amount: string;
 };
@@ -13,12 +12,11 @@ type FinanceCardProps = {
 const FinanceCard = ({
   title,
   subtitle,
-  cardColor,
   tagColor,
   amount,
 }: FinanceCardProps) => {
   return (
-    <S.Container color={cardColor}>
+    <S.Container>
       <S.Tag color={tagColor} />
       <div>
         <span>{title}</span>
