@@ -22,19 +22,19 @@ const Aside = () => {
       </S.Header>
 
       <S.MenuContainer>
-        <S.MenuItemLink href="#">
+        <S.MenuItemLink to="/dashboard">
           <MdDashboard />
           Dashboard
         </S.MenuItemLink>
-        <S.MenuItemLink href="#">
+        <S.MenuItemLink to="/list/entry-balance">
           <MdArrowUpward />
           Entradas
         </S.MenuItemLink>
-        <S.MenuItemLink href="#">
+        <S.MenuItemLink to="/list/output-balance">
           <MdArrowDownward />
           Saídas
         </S.MenuItemLink>
-        <S.MenuItemLink href="#">
+        <S.MenuItemLink to="#">
           <MdExitToApp />
           Sair
         </S.MenuItemLink>
