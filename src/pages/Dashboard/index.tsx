@@ -10,8 +10,8 @@ const Dashboard = () => {
   return (
     <S.Container>
       <ContentHeader title="Dashboard" lineColor="#F7931B">
-        <SelectInput options={options} />
-        <SelectInput options={fruits} />
+        <SelectInput options={options} onChange={() => {}} />
+        <SelectInput options={fruits} onChange={() => {}} />
       </ContentHeader>
     </S.Container>
   );

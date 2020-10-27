@@ -31,7 +31,12 @@ type DataProps = {
 };
 
 const List = ({ match }: RouteParamsListProps) => {
+  const captureMonth = String(new Date().getMonth() + 1);
+  const captureYear = String(new Date().getFullYear());
+
   const [data, setData] = useState<DataProps[]>([]);
+  const [monthSelected, setMonthSelected] = useState<string>(captureMonth);
+  const [yearSelected, setYearSelected] = useState<string>(captureYear);
 
   const { type } = match.params;
 
@@ -48,9 +53,17 @@ const List = ({ match }: RouteParamsListProps) => {
   }, [type]);
 
   useEffect(() => {
-    const response = listData.map((item) => {
+    const filteredDate = listData.filter((item) => {
+      const date = new Date(item.date);
+      const month = String(date.getMonth() + 1);
+      const year = String(date.getFullYear());
+
+      return month === monthSelected && year === yearSelected;
+    });
+
+    const formattedData = filteredDate.map((item, index) => {
       return {
-        id: String(Math.random() * data.length),
+        id: String(index),
         description: item.description,
         FormattedAmount: formatCurrency(Number(item.amount)),
         frequency: item.frequency,
@@ -59,14 +72,22 @@ const List = ({ match }: RouteParamsListProps) => {
       };
     });
 
-    setData(response);
-  }, []);
+    setData(formattedData);
+  }, [listData, monthSelected, yearSelected]);
 
   return (
     <S.Container>
       <ContentHeader title={title} lineColor={lineColor}>
-        <SelectInput options={months} />
-        <SelectInput options={years} />
+        <SelectInput
+          options={months}
+          onChange={({ target }) => setMonthSelected(target.value)}
+          defaultValue={monthSelected}
+        />
+        <SelectInput
+          options={years}
+          onChange={({ target }) => setYearSelected(target.value)}
+          defaultValue={yearSelected}
+        />
       </ContentHeader>
 
       <S.Filters>

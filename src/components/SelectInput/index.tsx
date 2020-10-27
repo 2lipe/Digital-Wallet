@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 import * as S from './styled';
 
@@ -7,12 +7,14 @@ type SelectInputProps = {
     value: string | number;
     label: string | number;
   }[];
+  onChange(event: ChangeEvent<HTMLSelectElement>): void | undefined;
+  defaultValue?: string | number;
 };
 
-const SelectInput = ({ options }: SelectInputProps) => {
+const SelectInput = ({ options, onChange, defaultValue }: SelectInputProps) => {
   return (
     <S.Container>
-      <select name="" id="">
+      <select name="" id="" onChange={onChange} defaultValue={defaultValue}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
