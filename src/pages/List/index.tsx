@@ -3,8 +3,8 @@ import React, { useMemo, useState, useEffect } from 'react';
 import ContentHeader from '../../components/ContentHeader';
 import SelectInput from '../../components/SelectInput';
 import FinanceCard from '../../components/FinanceCard';
-import listOfMonths from '../../utils/months';
 
+import listOfMonths from '../../utils/months';
 import gains from '../../repositories/gains';
 import expense from '../../repositories/expenses';
 
@@ -38,26 +38,23 @@ const List = ({ match }: RouteParamsListProps) => {
   const [data, setData] = useState<DataProps[]>([]);
   const [monthSelected, setMonthSelected] = useState<string>(captureMonth);
   const [yearSelected, setYearSelected] = useState<string>(captureYear);
-  const [frequencySelected, setFrequencySelected] = useState(frequency);
+  const [frequencyFilterSelected, setFrequencyFilterSelected] = useState(
+    frequency,
+  );
 
   const { type } = match.params;
 
-  const title = useMemo(() => {
-    return type === 'entry-balance' ? 'Entradas' : 'Saídas';
-  }, [type]);
-
-  const lineColor = useMemo(() => {
-    return type === 'entry-balance' ? '#F7931B' : '#E44C4E';
-  }, [type]);
-
-  const listData = useMemo(() => {
-    return type === 'entry-balance' ? gains : expense;
+  const pageData = useMemo(() => {
+    return type === 'entry-balance'
+      ? { title: 'Entradas', lineColor: '#F7931B', data: gains }
+      : { title: 'Saídas', lineColor: '#E44C4E', data: expense };
   }, [type]);
 
   const years = useMemo(() => {
     let uniqueYears: number[] = [];
+    const { data } = pageData;
 
-    listData.forEach((item) => {
+    data.forEach((item) => {
       const date = new Date(item.date);
       const year = date.getFullYear();
 
@@ -70,7 +67,7 @@ const List = ({ match }: RouteParamsListProps) => {
     return uniqueYears.map((year) => {
       return { value: year, label: year };
     });
-  }, [listData]);
+  }, [pageData]);
 
   const months = useMemo(() => {
     return listOfMonths.map((month, index) => {
@@ -79,30 +76,32 @@ const List = ({ match }: RouteParamsListProps) => {
   }, []);
 
   const handleFrequencyClick = (frequency: string) => {
-    const alreadySelected = frequencySelected.findIndex(
+    const alreadySelected = frequencyFilterSelected.findIndex(
       (item) => item === frequency,
     );
 
     const existAlreadyFrequency = alreadySelected >= 0;
     if (existAlreadyFrequency) {
-      const filteredFrequency = frequencySelected.filter(
+      const filteredFrequency = frequencyFilterSelected.filter(
         (item) => item === frequency,
       );
-      setFrequencySelected(filteredFrequency);
+      setFrequencyFilterSelected(filteredFrequency);
     } else {
-      setFrequencySelected((prev) => [...prev, frequency]);
+      setFrequencyFilterSelected((prev) => [...prev, frequency]);
     }
   };
 
   useEffect(() => {
-    const filteredDate = listData.filter((item) => {
+    const { data } = pageData;
+
+    const filteredDate = data.filter((item) => {
       const date = new Date(item.date);
       const month = String(date.getMonth() + 1);
       const year = String(date.getFullYear());
       const filterByYearMonthAndFrequency =
         month === monthSelected &&
         year === yearSelected &&
-        frequencySelected.includes(item.frequency);
+        frequencyFilterSelected.includes(item.frequency);
 
       return filterByYearMonthAndFrequency;
     });
@@ -119,11 +118,11 @@ const List = ({ match }: RouteParamsListProps) => {
     });
 
     setData(formattedData);
-  }, [listData, monthSelected, yearSelected, frequencySelected]);
+  }, [pageData, monthSelected, yearSelected, frequencyFilterSelected]);
 
   return (
     <S.Container>
-      <ContentHeader title={title} lineColor={lineColor}>
+      <ContentHeader title={pageData.title} lineColor={pageData.lineColor}>
         <SelectInput
           options={months}
           onChange={({ target }) => setMonthSelected(target.value)}
@@ -140,7 +139,7 @@ const List = ({ match }: RouteParamsListProps) => {
         <button
           type="button"
           className={`tag-filter tag-filter-recurrent
-            ${frequencySelected.includes('recorrente') && 'tag-active'}`}
+            ${frequencyFilterSelected.includes('recorrente') && 'tag-active'}`}
           onClick={() => handleFrequencyClick('recorrente')}
         >
           Recorrentes
@@ -149,7 +148,7 @@ const List = ({ match }: RouteParamsListProps) => {
         <button
           type="button"
           className={`tag-filter tag-filter-eventual
-            ${frequencySelected.includes('eventual') && 'tag-active'}`}
+            ${frequencyFilterSelected.includes('eventual') && 'tag-active'}`}
           onClick={() => handleFrequencyClick('eventual')}
         >
           Eventuais
