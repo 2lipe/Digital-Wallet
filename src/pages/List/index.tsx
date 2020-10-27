@@ -33,10 +33,12 @@ type DataProps = {
 const List = ({ match }: RouteParamsListProps) => {
   const captureMonth = String(new Date().getMonth() + 1);
   const captureYear = String(new Date().getFullYear());
+  const frequency = ['recorrente', 'eventual'];
 
   const [data, setData] = useState<DataProps[]>([]);
   const [monthSelected, setMonthSelected] = useState<string>(captureMonth);
   const [yearSelected, setYearSelected] = useState<string>(captureYear);
+  const [frequencySelected, setFrequencySelected] = useState(frequency);
 
   const { type } = match.params;
 
@@ -76,13 +78,33 @@ const List = ({ match }: RouteParamsListProps) => {
     });
   }, []);
 
+  const handleFrequencyClick = (frequency: string) => {
+    const alreadySelected = frequencySelected.findIndex(
+      (item) => item === frequency,
+    );
+
+    const existAlreadyFrequency = alreadySelected >= 0;
+    if (existAlreadyFrequency) {
+      const filteredFrequency = frequencySelected.filter(
+        (item) => item === frequency,
+      );
+      setFrequencySelected(filteredFrequency);
+    } else {
+      setFrequencySelected((prev) => [...prev, frequency]);
+    }
+  };
+
   useEffect(() => {
     const filteredDate = listData.filter((item) => {
       const date = new Date(item.date);
       const month = String(date.getMonth() + 1);
       const year = String(date.getFullYear());
+      const filterByYearMonthAndFrequency =
+        month === monthSelected &&
+        year === yearSelected &&
+        frequencySelected.includes(item.frequency);
 
-      return month === monthSelected && year === yearSelected;
+      return filterByYearMonthAndFrequency;
     });
 
     const formattedData = filteredDate.map((item, index) => {
@@ -97,7 +119,7 @@ const List = ({ match }: RouteParamsListProps) => {
     });
 
     setData(formattedData);
-  }, [listData, monthSelected, yearSelected]);
+  }, [listData, monthSelected, yearSelected, frequencySelected]);
 
   return (
     <S.Container>
@@ -115,11 +137,21 @@ const List = ({ match }: RouteParamsListProps) => {
       </ContentHeader>
 
       <S.Filters>
-        <button type="button" className="tag-filter tag-filter-recurrent">
+        <button
+          type="button"
+          className={`tag-filter tag-filter-recurrent
+            ${frequencySelected.includes('recorrente') && 'tag-active'}`}
+          onClick={() => handleFrequencyClick('recorrente')}
+        >
           Recorrentes
         </button>
 
-        <button type="button" className="tag-filter tag-filter-eventual">
+        <button
+          type="button"
+          className={`tag-filter tag-filter-eventual
+            ${frequencySelected.includes('eventual') && 'tag-active'}`}
+          onClick={() => handleFrequencyClick('eventual')}
+        >
           Eventuais
         </button>
       </S.Filters>
