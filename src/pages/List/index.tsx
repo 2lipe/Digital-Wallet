@@ -3,7 +3,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import ContentHeader from '../../components/ContentHeader';
 import SelectInput from '../../components/SelectInput';
 import FinanceCard from '../../components/FinanceCard';
-import { years, months } from './options';
+import listOfMonths from '../../utils/months';
 
 import gains from '../../repositories/gains';
 import expense from '../../repositories/expenses';
@@ -51,6 +51,30 @@ const List = ({ match }: RouteParamsListProps) => {
   const listData = useMemo(() => {
     return type === 'entry-balance' ? gains : expense;
   }, [type]);
+
+  const years = useMemo(() => {
+    let uniqueYears: number[] = [];
+
+    listData.forEach((item) => {
+      const date = new Date(item.date);
+      const year = date.getFullYear();
+
+      const yearIsNotIncludeInsideList = !uniqueYears.includes(year);
+      if (yearIsNotIncludeInsideList) {
+        uniqueYears.push(year);
+      }
+    });
+
+    return uniqueYears.map((year) => {
+      return { value: year, label: year };
+    });
+  }, [listData]);
+
+  const months = useMemo(() => {
+    return listOfMonths.map((month, index) => {
+      return { value: index + 1, label: month };
+    });
+  }, []);
 
   useEffect(() => {
     const filteredDate = listData.filter((item) => {
