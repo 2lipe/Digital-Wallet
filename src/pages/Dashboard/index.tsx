@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 
 import ContentHeader from '../../components/ContentHeader';
 import SelectInput from '../../components/SelectInput';
+import WalletBox from '../../components/WalletBox';
 
 import gains from '../../repositories/gains';
 import expenses from '../../repositories/expenses';
@@ -63,6 +64,16 @@ const Dashboard = () => {
           defaultValue={yearSelected}
         />
       </ContentHeader>
+
+      <S.Content>
+        <WalletBox
+          title="saldo"
+          amount={150.0}
+          footerLabel="atualizado com base nas entradas e saidas"
+          icon="dolar"
+          color="red"
+        />
+      </S.Content>
     </S.Container>
   );
 };
