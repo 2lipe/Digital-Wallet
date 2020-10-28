@@ -31,13 +31,13 @@ type DataProps = {
 };
 
 const List = ({ match }: RouteParamsListProps) => {
-  const captureMonth = String(new Date().getMonth() + 1);
-  const captureYear = String(new Date().getFullYear());
+  const captureMonth = new Date().getMonth() + 1;
+  const captureYear = new Date().getFullYear();
   const frequency = ['recorrente', 'eventual'];
 
   const [data, setData] = useState<DataProps[]>([]);
-  const [monthSelected, setMonthSelected] = useState<string>(captureMonth);
-  const [yearSelected, setYearSelected] = useState<string>(captureYear);
+  const [monthSelected, setMonthSelected] = useState<number>(captureMonth);
+  const [yearSelected, setYearSelected] = useState<number>(captureYear);
   const [frequencyFilterSelected, setFrequencyFilterSelected] = useState(
     frequency,
   );
@@ -91,13 +91,31 @@ const List = ({ match }: RouteParamsListProps) => {
     }
   };
 
+  const handleMonthSelected = (month: string) => {
+    try {
+      const parsedMonth = Number(month);
+      setMonthSelected(parsedMonth);
+    } catch (error) {
+      throw new Error('Não foi possível capturar o mês selecionado');
+    }
+  };
+
+  const handleYearSelected = (year: string) => {
+    try {
+      const parsedYear = Number(year);
+      setYearSelected(parsedYear);
+    } catch (error) {
+      throw new Error('Não foi possível capturar o ano selecionado');
+    }
+  };
+
   useEffect(() => {
     const { data } = pageData;
 
     const filteredDate = data.filter((item) => {
       const date = new Date(item.date);
-      const month = String(date.getMonth() + 1);
-      const year = String(date.getFullYear());
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
       const filterByYearMonthAndFrequency =
         month === monthSelected &&
         year === yearSelected &&
@@ -125,12 +143,12 @@ const List = ({ match }: RouteParamsListProps) => {
       <ContentHeader title={pageData.title} lineColor={pageData.lineColor}>
         <SelectInput
           options={months}
-          onChange={({ target }) => setMonthSelected(target.value)}
+          onChange={({ target }) => handleMonthSelected(target.value)}
           defaultValue={monthSelected}
         />
         <SelectInput
           options={years}
-          onChange={({ target }) => setYearSelected(target.value)}
+          onChange={({ target }) => handleYearSelected(target.value)}
           defaultValue={yearSelected}
         />
       </ContentHeader>
