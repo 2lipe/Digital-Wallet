@@ -71,7 +71,21 @@ const Dashboard = () => {
           amount={150.0}
           footerLabel="atualizado com base nas entradas e saidas"
           icon="dolar"
-          color="red"
+          color="#4E41F0"
+        />
+        <WalletBox
+          title="entradas"
+          amount={2850.0}
+          footerLabel="atualizado com base nas entradas e saidas"
+          icon="arrowUp"
+          color="#F7931B"
+        />
+        <WalletBox
+          title="saídas"
+          amount={1910.0}
+          footerLabel="atualizado com base nas entradas e saidas"
+          icon="arrowDown"
+          color="#E44C4E"
         />
       </S.Content>
     </S.Container>

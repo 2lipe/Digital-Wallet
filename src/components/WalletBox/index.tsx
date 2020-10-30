@@ -1,4 +1,5 @@
 import React from 'react';
+import CountUp from 'react-countup';
 
 import dolarImg from '../../assets/dollar.svg';
 import arrowUpImg from '../../assets/arrow-up.svg';
@@ -21,12 +22,33 @@ const WalletBox = ({
   icon,
   color,
 }: WalletBoxProps) => {
+  const iconSelected = () => {
+    switch (icon) {
+      case 'dolar':
+        return dolarImg;
+      case 'arrowUp':
+        return arrowUpImg;
+      case 'arrowDown':
+        return arrowDownImg;
+      default:
+        return undefined;
+    }
+  };
+
   return (
     <S.Container color={color}>
       <span>{title}</span>
-      <h1>{amount}</h1>
+      <h1>
+        <CountUp
+          end={amount}
+          prefix={'R$ '}
+          separator="."
+          decimal=","
+          decimals={2}
+        />
+      </h1>
       <small>{footerLabel}</small>
-      <img src={dolarImg} alt={title} />
+      {iconSelected && <img src={iconSelected()} alt={title} />}
     </S.Container>
   );
 };
