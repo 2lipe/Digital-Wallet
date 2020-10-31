@@ -4,6 +4,7 @@ import ContentHeader from '../../components/ContentHeader';
 import SelectInput from '../../components/SelectInput';
 import WalletBox from '../../components/WalletBox';
 import MessageBox from '../../components/MessageBox';
+import PieGrafic from '../../components/PieGrafic';
 
 import happyImg from '../../assets/happy.svg';
 import sadImg from '../../assets/sad.svg';
@@ -80,9 +81,9 @@ const Dashboard = () => {
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
 
-      const isSelectedMonthAndMonth =
+      const isSelectedMonthAndYear =
         month === monthSelected && year === yearSelected;
-      if (isSelectedMonthAndMonth) {
+      if (isSelectedMonthAndYear) {
         try {
           total += Number(item.amount);
         } catch (error) {
@@ -124,6 +125,30 @@ const Dashboard = () => {
       };
     }
   }, [totalBalance]);
+
+  const relationWithExpenseAndGains = useMemo(() => {
+    const total = totalGains + totalExpenses;
+
+    const percentGains = Number(((totalGains / total) * 100).toFixed(1));
+    const percentExpenses = Number(((totalExpenses / total) * 100).toFixed(1));
+
+    const data = [
+      {
+        name: 'Entradas',
+        value: totalExpenses,
+        percent: percentGains,
+        color: '#E44C4E',
+      },
+      {
+        name: 'Saídas',
+        value: totalExpenses,
+        percent: percentExpenses,
+        color: '#F7931B',
+      },
+    ];
+
+    return data;
+  }, [totalGains, totalExpenses]);
 
   return (
     <S.Container>
@@ -173,6 +198,8 @@ const Dashboard = () => {
           footerText={message.footerText}
           icon={message.icon}
         />
+
+        <PieGrafic data={relationWithExpenseAndGains} />
       </S.Content>
     </S.Container>
   );
