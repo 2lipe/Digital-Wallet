@@ -17,12 +17,15 @@ const PieGrafic = ({ data }: PieGraficProps) => (
     <S.SideLeft>
       <h2>Relação</h2>
       <S.LegendsContainer>
-        {data.map((item) => (
-          <S.Legends key={item.name} color={item.color}>
-            <div>{item.percent}</div>
-            <span>{item.name}</span>
-          </S.Legends>
-        ))}
+        {data.map(
+          (item) =>
+            item.percent > 0 && (
+              <S.Legends key={item.name} color={item.color}>
+                <div>{item.percent}%</div>
+                <span>{item.name}</span>
+              </S.Legends>
+            ),
+        )}
       </S.LegendsContainer>
     </S.SideLeft>
 
