@@ -5,6 +5,7 @@ import SelectInput from '../../components/SelectInput';
 import WalletBox from '../../components/WalletBox';
 import MessageBox from '../../components/MessageBox';
 import PieGrafic from '../../components/PieGrafic';
+import HistoryGrafic from '../../components/HistoryGrafic';
 
 import happyImg from '../../assets/happy.svg';
 import sadImg from '../../assets/sad.svg';
@@ -150,6 +151,68 @@ const Dashboard = () => {
     return data;
   }, [totalGains, totalExpenses]);
 
+  const historyData = useMemo(() => {
+    return listOfMonths
+      .map((_, month) => {
+        let amountEntry = 0;
+        gains.forEach((gain) => {
+          const date = new Date(gain.date);
+          const gainMonth = date.getMonth();
+          const gainYear = date.getFullYear();
+
+          const isGainMonthAndGainYear =
+            gainMonth === month && gainYear === yearSelected;
+
+          if (isGainMonthAndGainYear) {
+            try {
+              amountEntry += Number(gain.amount);
+            } catch (error) {
+              throw new Error(
+                'Número de entrada inválido. A entrada deve ser um número',
+              );
+            }
+          }
+        });
+
+        let amountOutput = 0;
+        expenses.forEach((expense) => {
+          const date = new Date(expense.date);
+          const expenseMonth = date.getMonth();
+          const expenseYear = date.getFullYear();
+
+          const isExpenseMonthAndExpenseYear =
+            expenseMonth === month && expenseYear === yearSelected;
+
+          if (isExpenseMonthAndExpenseYear) {
+            try {
+              amountOutput += Number(expense.amount);
+            } catch (error) {
+              throw new Error(
+                'Número de saída inválido. A saída deve ser um número',
+              );
+            }
+          }
+        });
+
+        return {
+          monthNumber: month,
+          month: listOfMonths[month].substr(0, 3),
+          amountEntry,
+          amountOutput,
+        };
+      })
+      .filter((item) => {
+        const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
+
+        const isCurrentMonthAndCurrentYearOrPassedYear =
+          (yearSelected === currentYear && item.monthNumber <= currentMonth) ||
+          yearSelected < currentYear;
+
+        return isCurrentMonthAndCurrentYearOrPassedYear;
+      });
+  }, [yearSelected]);
+
   return (
     <S.Container>
       <ContentHeader title="Dashboard" lineColor="#F7931B">
@@ -200,6 +263,12 @@ const Dashboard = () => {
         />
 
         <PieGrafic data={relationWithExpenseAndGains} />
+
+        <HistoryGrafic
+          data={historyData}
+          lineColorAmountEntry="#F7931B"
+          lineColorAmountOutput="#E44C4E"
+        />
       </S.Content>
     </S.Container>
   );
