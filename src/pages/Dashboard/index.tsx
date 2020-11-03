@@ -138,13 +138,13 @@ const Dashboard = () => {
         name: 'Entradas',
         value: totalExpenses,
         percent: percentGains,
-        color: '#E44C4E',
+        color: '#F7931B',
       },
       {
         name: 'Saídas',
         value: totalExpenses,
         percent: percentExpenses,
-        color: '#F7931B',
+        color: '#E44C4E',
       },
     ];
 
