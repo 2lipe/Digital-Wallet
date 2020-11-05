@@ -6,6 +6,7 @@ import WalletBox from '../../components/WalletBox';
 import MessageBox from '../../components/MessageBox';
 import PieGrafic from '../../components/PieGrafic';
 import HistoryGrafic from '../../components/HistoryGrafic';
+import BarGrafic from '../../components/BarGrafic';
 
 import happyImg from '../../assets/happy.svg';
 import sadImg from '../../assets/sad.svg';
@@ -151,6 +152,53 @@ const Dashboard = () => {
     return data;
   }, [totalGains, totalExpenses]);
 
+  const relationWithEventualAndRecurrentExpenses = useMemo(() => {
+    let amountRecurrent = 0;
+    let amountEventual = 0;
+
+    expenses
+      .filter((expense) => {
+        const date = new Date(expense.date);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+
+        const isMonthAndYearSelected =
+          month === monthSelected && year === yearSelected;
+
+        return isMonthAndYearSelected;
+      })
+      .forEach((expense) => {
+        const isExpenseFrequencyRecurrent = expense.frequency === 'recorrente';
+        const isExpenseFrequencyEventual = expense.frequency === 'eventual';
+
+        if (isExpenseFrequencyRecurrent) {
+          return (amountRecurrent += Number(expense.amount));
+        }
+
+        if (isExpenseFrequencyEventual) {
+          return (amountEventual += Number(expense.amount));
+        }
+      });
+
+    const total = amountRecurrent + amountEventual;
+    const percent = Number(((amountEventual / total) * 100).toFixed(1));
+
+    return [
+      {
+        name: 'Recorrentes',
+        amount: amountRecurrent,
+        percent,
+        color: '#F7931B',
+      },
+      {
+        name: 'Eventuais',
+        amount: amountEventual,
+        percent,
+        color: '#E44C4E',
+      },
+    ];
+  }, [monthSelected, yearSelected]);
+
   const historyData = useMemo(() => {
     return listOfMonths
       .map((_, month) => {
@@ -269,6 +317,8 @@ const Dashboard = () => {
           lineColorAmountEntry="#F7931B"
           lineColorAmountOutput="#E44C4E"
         />
+
+        <BarGrafic />
       </S.Content>
     </S.Container>
   );
