@@ -14,17 +14,15 @@ const FinanceCard = ({
   subtitle,
   tagColor,
   amount,
-}: FinanceCardProps) => {
-  return (
-    <S.Container>
-      <S.Tag color={tagColor} />
-      <div>
-        <span>{title}</span>
-        <small>{subtitle}</small>
-      </div>
-      <h3>{amount}</h3>
-    </S.Container>
-  );
-};
+}: FinanceCardProps) => (
+  <S.Container>
+    <S.Tag color={tagColor} />
+    <div>
+      <span>{title}</span>
+      <small>{subtitle}</small>
+    </div>
+    <h3>{amount}</h3>
+  </S.Container>
+);
 
 export default FinanceCard;

@@ -16,21 +16,19 @@ const MessageBox = ({
   footerText,
   icon,
   imageDescription,
-}: MessageBoxProps) => {
-  return (
-    <S.Container>
-      <header>
-        <h1>
-          {title}
-          <img src={icon} alt={imageDescription} />
-        </h1>
-        <p>{description}</p>
-      </header>
-      <footer>
-        <span>{footerText}</span>
-      </footer>
-    </S.Container>
-  );
-};
+}: MessageBoxProps) => (
+  <S.Container>
+    <header>
+      <h1>
+        {title}
+        <img src={icon} alt={imageDescription} />
+      </h1>
+      <p>{description}</p>
+    </header>
+    <footer>
+      <span>{footerText}</span>
+    </footer>
+  </S.Container>
+);
 
 export default MessageBox;
