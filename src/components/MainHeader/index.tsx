@@ -1,11 +1,18 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import Toggle from '../Toggle';
 import emojis from '../../utils/emojis';
 
+import { useTheme } from '../../hooks/useTheme';
+
 import * as S from './styled';
 
 const MainHeader = () => {
+  const { toggleTheme, theme } = useTheme();
+  const [darkTheme, setDarkTheme] = useState(() =>
+    theme.title === 'dark' ? true : false,
+  );
+
   const emoji = useMemo(() => {
     const generateAleatoryEmojisIndex = Math.floor(
       Math.random() * emojis.length,
@@ -13,9 +20,20 @@ const MainHeader = () => {
     return emojis[generateAleatoryEmojisIndex];
   }, []);
 
+  const handleChangeTheme = () => {
+    const changeTheme = !darkTheme;
+    setDarkTheme(changeTheme);
+    toggleTheme();
+  };
+
   return (
     <S.Container>
-      <Toggle />
+      <Toggle
+        labelLeft="Light"
+        labelRight="Dark"
+        checked={darkTheme}
+        onChange={handleChangeTheme}
+      />
 
       <S.Profile>
         <S.Welcome>Olá, {emoji}</S.Welcome>
