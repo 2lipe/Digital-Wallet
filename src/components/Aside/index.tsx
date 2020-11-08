@@ -6,11 +6,15 @@ import {
   MdExitToApp,
 } from 'react-icons/md';
 
+import { useAuth } from '../../hooks/useAuth';
+
 import logoImg from '../../assets/logo.svg';
 
 import * as S from './styled';
 
 const Aside = () => {
+  const { signOut } = useAuth();
+
   return (
     <S.Container>
       <S.Header>
@@ -34,7 +38,7 @@ const Aside = () => {
           <MdArrowDownward />
           Saídas
         </S.MenuItemLink>
-        <S.MenuItemLink to="#">
+        <S.MenuItemLink onClick={signOut} to="#">
           <MdExitToApp />
           Sair
         </S.MenuItemLink>
