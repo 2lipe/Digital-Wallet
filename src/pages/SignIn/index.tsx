@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 
 import logoImg from '../../assets/logo.svg';
 
@@ -23,7 +24,7 @@ const SignIn = () => {
         <Input type="email" placeholder="example@example.com" required />
         <Input type="password" placeholder="*****" required />
 
-        <button type="submit">Acessar</button>
+        <Button type="submit">Acessar</Button>
       </S.Form>
     </S.Container>
   );
