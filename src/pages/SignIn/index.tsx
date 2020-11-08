@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Input from '../../components/Input';
+
 import logoImg from '../../assets/logo.svg';
 
 import * as S from './styled';
@@ -15,11 +17,11 @@ const SignIn = () => {
         <h2>Digital Wallet</h2>
       </S.Logo>
 
-      <S.Form>
+      <S.Form onSubmit={() => {}}>
         <S.FormTitle>Entrar</S.FormTitle>
 
-        <input type="text"></input>
-        <input type="text"></input>
+        <Input type="email" placeholder="example@example.com" required />
+        <Input type="password" placeholder="*****" required />
 
         <button type="submit">Acessar</button>
       </S.Form>
