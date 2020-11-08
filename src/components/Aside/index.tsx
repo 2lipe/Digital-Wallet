@@ -22,7 +22,7 @@ const Aside = () => {
       </S.Header>
 
       <S.MenuContainer>
-        <S.MenuItemLink to="/dashboard">
+        <S.MenuItemLink to="/">
           <MdDashboard />
           Dashboard
         </S.MenuItemLink>
