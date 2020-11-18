@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { ThemeProps } from '../models/Theme';
 
 import dark from '../styles/themes/dark';
 import light from '../styles/themes/light';
@@ -6,24 +7,6 @@ import light from '../styles/themes/light';
 type ThemeContextProps = {
   toggleTheme(): void;
   theme: ThemeProps;
-};
-
-type ThemeProps = {
-  title: string;
-
-  colors: {
-    primary: string;
-    secondary: string;
-    tertiary: string;
-
-    white: string;
-    black: string;
-    gray: string;
-
-    success: string;
-    info: string;
-    warning: string;
-  };
 };
 
 type ContentProps = {
