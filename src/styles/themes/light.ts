@@ -1,18 +1,20 @@
-/* eslint-disable import/no-anonymous-default-export */
+import { ThemeProps } from '../../models/Theme';
+import { Colors } from '../colors';
+
 export default {
   title: 'light',
 
   colors: {
-    primary: '#DCDCDC',
-    secondary: '#FFFFFF',
-    tertiary: '#F5F5F5',
+    primary: Colors.grayLight,
+    secondary: Colors.white,
+    tertiary: Colors.whiteSmoth,
 
-    white: '#000',
-    black: '#FFF',
-    gray: '#BFBFBF',
+    white: Colors.black,
+    black: Colors.white,
+    gray: Colors.gray,
 
-    success: '#03BB85',
-    info: '#3B5998',
-    warning: '#FF6961',
+    success: Colors.greenLight,
+    info: Colors.purpleLight,
+    warning: Colors.redLight,
   },
-};
+} as ThemeProps;
